@@ -1,9 +1,13 @@
+import { Routes, Route } from "react-router-dom";
+
+import Startup from "./pages/Startup";
+
 import "./App.css";
 
 export default function App() {
   return (
-    <div>
-      <h1>Hi</h1>
-    </div>
+    <Routes>
+      <Route path="/" element={ <Startup /> } />
+    </Routes>
   )
 }
