@@ -5,9 +5,9 @@ export default function Startup() {
     const overlayRef = useRef(null);
 
     useEffect(() => {
-        setTimeout(() => {
+        overlayRef.current.addEventListener("click", () => {
             videoRef.current.play();
-        }, 1000);
+        });
 
         videoRef.current.addEventListener("ended", () => {
             console.log("Done");
