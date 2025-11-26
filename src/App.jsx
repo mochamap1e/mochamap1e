@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import Startup from "./pages/Startup";
+import Startup from "./pages/xStartup";
 
 import "./App.css";
 
