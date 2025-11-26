@@ -1,4 +1,4 @@
-import Startup from "./components/startup"
+import Startup from "./components/Startup"
 
 export default function App() {
   return (
