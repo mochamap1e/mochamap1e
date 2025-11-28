@@ -12,7 +12,6 @@ export default function Dashboard() {
         const fadeTimeout = setTimeout(() => hideOverlay(), 1000);
         const loadedTimeout = setTimeout(() => {
             setSpinnerVisible(false);
-
             new Audio("/sfx/home.wav").play();
         }, 2000); // random.int(4, 8) * 1000    
 

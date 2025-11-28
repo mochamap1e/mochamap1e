@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 
 import FadeOverlay, { showOverlay } from "../components/FadeOverlay";
 import centerElements from "../styles/centerElements";
+import applyGain from "../utils/gain";
 
 export default function Startup() {
     const navigate = useNavigate();
 
     const videoRef = useRef(null);
+    const gainApplied = useRef(false);
+
     const [videoStarted, setVideoStarted] = useState(false);
 
     useEffect(() => {
@@ -19,7 +22,6 @@ export default function Startup() {
         }
 
         if (video) video.addEventListener("ended", onVideoEnded);
-
         return () => {
             if (video) video.removeEventListener("ended", onVideoEnded);
         }
@@ -35,8 +37,11 @@ export default function Startup() {
             {!videoStarted &&
                 <button
                     onClick={() => {
-                        setVideoStarted(true);
+                        applyGain(videoRef.current, 4);
                         videoRef.current.play();
+
+                        gainApplied.current = true;
+                        setVideoStarted(true);
                     }}
                     className="fixed text-4xl cursor-pointer z-15"
                 >start</button>
