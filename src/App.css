@@ -11,6 +11,6 @@
 
 @layer {
     body {
-        @apply bg-[url('/img/background.jpg')]
+        @apply bg-[url('/img/background.jpg')] bg-no-repeat bg-cover bg-center;
     }
 }

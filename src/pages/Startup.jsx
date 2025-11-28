@@ -31,7 +31,7 @@ export default function Startup() {
         <div
             className={`
                 ${centerElements}
-                bg-[linear-gradient(#cccccc_0%,#dedfdf_50%,#cccccc_100%)]
+                bg-[linear-gradient(#c3c3c3_0%,#dedede_50%,#cccccc_100%)]
             `}>
 
             {!videoStarted &&

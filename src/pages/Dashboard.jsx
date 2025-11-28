@@ -3,6 +3,8 @@ import { motion } from "motion/react";
 import random from "random";
 
 import FadeOverlay, { hideOverlay } from "../components/FadeOverlay";
+import Carousel from "../components/Carousel";
+
 import centerElements from "../styles/centerElements";
 
 export default function Dashboard() {
@@ -22,11 +24,9 @@ export default function Dashboard() {
     }, []);
 
     return (
-        <div
-            className={`
-                ${centerElements}
-            `}>
-            
+        <div className={centerElements}>
+            <FadeOverlay initialOpacity={1} />
+
             <motion.img
                 src="/img/load.png"
                 className={`fixed ${ spinnerVisible ? "visible" : "invisible" }`}
@@ -38,7 +38,7 @@ export default function Dashboard() {
                 }}
             />
 
-            <FadeOverlay initialOpacity={1} />
+            { !spinnerVisible && <Carousel /> }
         </div>
     )
 }
