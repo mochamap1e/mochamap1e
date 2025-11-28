@@ -1,0 +1,1 @@
+export default "flex items-center justify-center h-screen";

@@ -1,48 +1,58 @@
-import { motion } from "motion/react";
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import FadeOverlay, { showOverlay } from "../components/FadeOverlay";
+import centerElements from "../styles/centerElements";
 
 export default function Startup() {
-    const videoRef = useRef(null);
-    const overlayRef = useRef(null);
+    const navigate = useNavigate();
 
+    const videoRef = useRef(null);
     const [videoStarted, setVideoStarted] = useState(false);
 
     useEffect(() => {
+        const video = videoRef.current;
 
+        const onVideoEnded = () => {
+            showOverlay();
+            setTimeout(() => navigate("/dashboard"), 2000);
+        }
+
+        if (video) video.addEventListener("ended", onVideoEnded);
+
+        return () => {
+            if (video) video.removeEventListener("ended", onVideoEnded);
+        }
     }, []);
 
     return (
         <div
             className={`
-                flex items-center justify-center
+                ${centerElements}
                 bg-[linear-gradient(#cccccc_0%,#dedfdf_50%,#cccccc_100%)]
             `}>
-            
+
             {!videoStarted &&
                 <button
                     onClick={() => {
                         setVideoStarted(true);
                         videoRef.current.play();
                     }}
-                    className="fixed cursor-pointer z-2"
+                    className="fixed text-4xl cursor-pointer z-15"
                 >start</button>
             }
-        
+
             <video
                 ref={videoRef}
                 src="/videos/startup.mp4"
                 preload="auto"
                 className={`
-                    w-screen h-screen z-0
+                    w-screen h-screen
                     ${videoStarted ? "visible" : "invisible"}
                 `}
             />
 
-            <motion.div
-                ref={overlayRef}
-                className="fixed bg-black w-screen h-screen z-1"
-                initial={{ opacity: 0 }}
-            />
+            <FadeOverlay initialOpacity={0} />
         </div>
     )
 }

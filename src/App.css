@@ -8,3 +8,9 @@
 @theme {
     --font-segoeui: "Segoe UI", Arial, sans-serif;
 }
+
+@layer {
+    body {
+        @apply bg-[url('/img/background.jpg')]
+    }
+}
