@@ -37,7 +37,7 @@ export default function Startup() {
             {!videoStarted &&
                 <button
                     onClick={() => {
-                        applyGain(videoRef.current, 4);
+                        applyGain(videoRef.current, 6);
                         videoRef.current.play();
 
                         gainApplied.current = true;
