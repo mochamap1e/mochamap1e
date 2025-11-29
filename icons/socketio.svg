@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 16384 16384"
+   version="1.1"
+   id="svg2"
+   width="128"
+   height="128"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2" />
+  <g
+     fill="#010101"
+     fill-rule="evenodd"
+     id="g2"
+     transform="matrix(128.10008,0,0,128.10008,-0.12710008,-0.12710008)"
+     style="fill:#ffffff">
+    <path
+       style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;isolation:auto;mix-blend-mode:normal;solid-color:#000000;solid-opacity:1;fill:#ffffff"
+       d="m 63.951,0.001 c -35.255,0 -63.95,28.695 -63.95,63.95 0,35.255 28.695,63.95 63.95,63.95 35.255,0 63.95,-28.695 63.95,-63.95 0,-35.255 -28.695,-63.95 -63.951,-63.95 z m 0,10.679 c 29.484,0 53.272,23.787 53.272,53.271 0,29.485 -23.788,53.272 -53.272,53.272 -29.484,0 -53.272,-23.787 -53.272,-53.272 0,-29.484 23.788,-53.271 53.272,-53.271 z"
+       color="#000000"
+       font-weight="400"
+       font-family="sans-serif"
+       overflow="visible"
+       fill-rule="nonzero"
+       id="path1" />
+    <path
+       d="M 48.39,60.716 C 62.394,49.276 76.092,37.438 90.401,26.332 82.896,37.865 75.177,49.245 67.672,60.777 61.235,60.807 54.797,60.807 48.39,60.716 Z m 11.838,6.376 c 6.468,0 12.905,0 19.342,0.092 C 65.475,78.564 51.838,90.493 37.499,101.568 45.004,90.035 52.723,78.625 60.228,67.092 Z"
+       id="path2"
+       style="fill:#ffffff" />
+  </g>
+</svg>
