@@ -1,0 +1,25 @@
+name: build on commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: clone repository
+        uses: actions/checkout@v6
+
+      - name: setup node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      
+      - name: npm install dependencies
+        run: npm i
+
+      - name: vite build
+        run: npm run build
