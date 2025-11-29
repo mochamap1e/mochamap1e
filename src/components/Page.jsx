@@ -3,17 +3,14 @@ import Panel from "./Panel"
 export default function Page({ name, rows, columns }) {
     return (
         <div>
-            <h1 className="text-white text-4xl">{name}</h1>
-
             <div
-                className="grid gap-2"
+                className="grid gap-1"
                 style={{
                     gridTemplateRows: `repeat(${rows}, 110px)`,
-                    gridTemplateColumns: `repeat(${columns}, 140px)`
+                    gridTemplateColumns: `repeat(${columns}, 150px)`
                 }}
             >
 
-            <Panel />
             <Panel />
             <Panel />
             <Panel />
