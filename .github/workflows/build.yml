@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: clone repository
         uses: actions/checkout@v6
+        with:
+          persist-credentials: true
 
       - name: setup node
         uses: actions/setup-node@v6
@@ -26,7 +28,7 @@ jobs:
       - name: vite build
         run: npm run build
 
-      - name: commmit
+      - name: commit
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
