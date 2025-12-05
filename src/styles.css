@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+
+@import "tailwindcss";
+
+@theme {
+    --font-inconsolata: "Inconsolata", Arial, sans-serif;
+}
+
+@layer {
+    h1, p {
+        @apply text-white;
+    }
+}
