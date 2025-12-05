@@ -1,9 +1,5 @@
 # alex@mochamap1e
 pronounced "mocha-maple"
-<br><br>
-15yo wannabe software engineer
-<br><br>
-windows is the best os
 
 ### languages:
 <span>
