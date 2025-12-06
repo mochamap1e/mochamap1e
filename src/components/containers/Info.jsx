@@ -1,20 +1,37 @@
 import { useState, useEffect } from "react";
 import { Octokit } from "octokit";
 
+const octokit = new Octokit();
+
 export default function Info() {
-    const [bio, setBio] = useState("fetching...");
+    const [bioText, setBioText] = useState("fetching...");
+
+    async function requestCurrentBio() {
+        try {
+            const { data: { bio: response } } = await octokit.request("GET /users/mochamap1e");
+
+            setBioText(response);
+            localStorage.setItem(storageKey, JSON.stringify({ text: response, timestamp: Date.now() }));
+        } catch(error) {
+            setBioText("failed to fetch bio");
+        }
+    }
 
     useEffect(() => {
-        const octokit = new Octokit();
+        const storageKey = "cachedBio";
+        const storedBio = localStorage.getItem(storageKey);
 
-        (async () => {
-            try {
-                const { data: { bio: response } } = await octokit.request("GET /users/mochamap1e");
-                setBio(response);
-            } catch(error) {
-                setBio("failed to fetch bio");
+        if (storedBio) {
+            const parsedStoredBio = JSON.parse(storedBio);
+
+            if ((Date.now() - parsedStoredBio.timestamp) >= 3600000) { // 1 hour
+                requestCurrentBio();
+            } else {
+                setBioText(parsedStoredBio.text);
             }
-        })();
+        } else {
+            requestCurrentBio();
+        }
     }, []);
 
     return (
@@ -26,7 +43,7 @@ export default function Info() {
             />
             <div className="flex flex-col gap-4">
                 <h1 className="text-3xl text-center">mochamap1e</h1>
-                <p className="max-w-[30ch] wrap-break-word">{bio}</p>
+                <p className="max-w-[30ch] wrap-break-word">{bioText}</p>
             </div>
         </div>
     )
