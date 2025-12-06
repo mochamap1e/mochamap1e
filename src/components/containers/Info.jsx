@@ -9,9 +9,8 @@ export default function Info() {
 
         (async () => {
             try {
-                //const { data: { bio: response } } = await octokit.request("GET /users/mochamap1e");
-                //setBio(response);
-                setBio("15yo wannabe software engineer")
+                const { data: { bio: response } } = await octokit.request("GET /users/mochamap1e");
+                setBio(response);
             } catch(error) {
                 setBio("failed to fetch bio");
             }
