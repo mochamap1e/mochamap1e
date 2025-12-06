@@ -4,6 +4,7 @@ import { Octokit } from "octokit";
 const octokit = new Octokit();
 
 export default function Info() {
+    const storageKey = "cachedBio";
     const [bioText, setBioText] = useState("fetching...");
 
     async function requestCurrentBio() {
@@ -14,11 +15,11 @@ export default function Info() {
             localStorage.setItem(storageKey, JSON.stringify({ text: response, timestamp: Date.now() }));
         } catch(error) {
             setBioText("failed to fetch bio");
+            console.error(error);
         }
     }
 
     useEffect(() => {
-        const storageKey = "cachedBio";
         const storedBio = localStorage.getItem(storageKey);
 
         if (storedBio) {

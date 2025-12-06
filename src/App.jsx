@@ -6,9 +6,7 @@ import "./styles.css";
 export default function App() {
     return (
         <div className="bg-black flex items-center justify-center w-screen h-screen gap-20">
-            <div>
-                <Info />
-            </div>
+            <Info />
             <Links />
         </div>
     )
