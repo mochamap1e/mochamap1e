@@ -1,0 +1,1 @@
+export default "border-2 border-white";
