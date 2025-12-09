@@ -15,14 +15,18 @@ export default forwardRef(({ elements }, ref) => {
     if (!isVisible) return null;
 
     return (
-        <motion.div className={clsx(container, "bg-black fixed flex flex-col p-12 gap-8 z-1")}>
-            <Button
-                text="x"
-                onClick={() => setIsVisible(false)}
-                extraClasses="absolute top-2 right-4"
-            />
+        <motion.div
+            className="fixed flex items-center justify-center w-screen h-screen z-1"
+        >
+            <motion.div className={clsx(container, "bg-black fixed flex flex-col p-12 gap-8")}>
+                <Button
+                    text="x"
+                    onClick={() => setIsVisible(false)}
+                    extraClasses="absolute top-2 right-4"
+                />
 
-            { elements }
+                { elements }
+            </motion.div>
         </motion.div>
     )
 });

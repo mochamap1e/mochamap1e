@@ -14,6 +14,8 @@ export default function App() {
     ////////// REFS & STATES //////////
 
     const projectsPopupRef = useRef(null);
+    const socialsPopupRef = useRef(null);
+    const setupPopupRef = useRef(null);
 
     ////////// BIO HANDLING //////////
 
@@ -70,8 +72,8 @@ export default function App() {
 
             <div className="flex flex-col max-sm:items-center gap-4">
                 <Button text="projects" onClick={() => projectsPopupRef.current.show()} />
-                <Button text="socials" onClick={() => projectsPopupRef.current.show()} />
-                <Button text="setup" onClick={() => projectsPopupRef.current.show()} />
+                <Button text="socials" onClick={() => socialsPopupRef.current.show()} />
+                <Button text="setup" onClick={() => setupPopupRef.current.show()} />
             </div>
 
             { /* ---- POPUPS ---- */ }
@@ -79,7 +81,19 @@ export default function App() {
             <Popup ref={projectsPopupRef} elements={
                 <>
                     <h1>projects</h1>
-                    <p>idk not many</p>
+                    <p>placeholder</p>
+                </>
+            } />
+            <Popup ref={socialsPopupRef} elements={
+                <>
+                    <h1>socials</h1>
+                    <p>placeholder</p>
+                </>
+            } />
+            <Popup ref={setupPopupRef} elements={
+                <>
+                    <h1>setup</h1>
+                    <p>placeholder</p>
                 </>
             } />
         </div>
