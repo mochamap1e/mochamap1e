@@ -1,23 +1,16 @@
-import clsx from "clsx";
 import { Octokit } from "octokit";
-import { useRef, useState, useEffect } from "react";
-
-import Button from "./components/Button";
-import Popup from "./components/Popup";
-import container from "./styles/container";
+import { motion } from "motion/react";
+import { useState, useEffect } from "react";
 
 import "./styles.css";
-
-const octokit = new Octokit();
+import MusicButton from "./components/MusicButton";
 
 export default function App() {
-    ////////// REFS & STATES //////////
+    const [musicPlaying, setMusicPlaying] = useState(false);
 
-    const projectsPopupRef = useRef(null);
-    const socialsPopupRef = useRef(null);
-    const setupPopupRef = useRef(null);
+    ////////// BIO //////////
 
-    ////////// BIO HANDLING //////////
+    const octokit = new Octokit();
 
     const storageKey = "cachedBio";
     const [bioText, setBioText] = useState("fetching...");
@@ -53,49 +46,45 @@ export default function App() {
     ////////// PAGE //////////
 
     return (
-        <div className="bg-black flex max-sm:flex-col items-center justify-center w-screen h-screen gap-20">
-            { /* ---- ABOUT ---- */ }
+        <div id="main-container">
+            <div id="top-container">
+                <div id="info-container" className="container">
+                    <img
+                        id="info-img"
+                        className="img-border rounded-image"
+                        src="https://github.com/mochamap1e.png?size=256"
+                        draggable="false"
+                    />
 
-            <div className={clsx(container, "flex items-center justify-center gap-10 p-8")}>
-                <img
-                    src="https://github.com/mochamap1e.png?size=256"
-                    className="rounded-full border-3 border-white w-30"
-                    draggable="false"
-                />
-                <div className="flex flex-col gap-4">
-                    <h1 className="text-center">mochamap1e</h1>
-                    <p className="max-w-[30ch] wrap-break-word">{bioText}</p>
+                    <div>
+                        <h1>mochamap1e</h1>
+                        <p>{bioText}</p>
+                    </div>
                 </div>
-            </div>
-            
-            { /* ---- LINKS ---- */ }
 
-            <div className="flex flex-col max-sm:items-center gap-4">
-                <Button text="projects" onClick={() => projectsPopupRef.current.show()} />
-                <Button text="socials" onClick={() => socialsPopupRef.current.show()} />
-                <Button text="setup" onClick={() => setupPopupRef.current.show()} />
+                <h2>hi</h2>
             </div>
 
-            { /* ---- POPUPS ---- */ }
+            <div className="container">
+                <motion.img
+                    id="cover-img"
+                    className="img-border rounded-image"
+                    src="/cover.jpg"
+                    draggable="false"
+                    animate={{
+                        rotate: 360
+                    }}
+                    transition={{
+                        duration: 10,
+                        repeat: Infinity,
+                        ease: "linear"
+                    }}
+                />
 
-            <Popup ref={projectsPopupRef} elements={
-                <>
-                    <h1>projects</h1>
-                    <p>placeholder</p>
-                </>
-            } />
-            <Popup ref={socialsPopupRef} elements={
-                <>
-                    <h1>socials</h1>
-                    <p>placeholder</p>
-                </>
-            } />
-            <Popup ref={setupPopupRef} elements={
-                <>
-                    <h1>setup</h1>
-                    <p>placeholder</p>
-                </>
-            } />
+                <h2>bossa lullaby - nicopatty</h2>
+
+                <MusicButton src="/icons/play.svg" />
+            </div>
         </div>
     )
 }
