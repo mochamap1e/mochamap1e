@@ -1,13 +1,10 @@
 import { Octokit } from "octokit";
-import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 
 import "./styles.css";
-import MusicButton from "./components/MusicButton";
+import Link from "./components/Link";
 
 export default function App() {
-    const [musicPlaying, setMusicPlaying] = useState(false);
-
     ////////// BIO //////////
 
     const octokit = new Octokit();
@@ -46,44 +43,23 @@ export default function App() {
     ////////// PAGE //////////
 
     return (
-        <div id="main-container">
-            <div id="top-container">
-                <div id="info-container" className="container">
-                    <img
-                        id="info-img"
-                        className="img-border rounded-image"
-                        src="https://github.com/mochamap1e.png?size=256"
-                        draggable="false"
-                    />
-
-                    <div>
-                        <h1>mochamap1e</h1>
-                        <p>{bioText}</p>
-                    </div>
-                </div>
-
-                <h2>hi</h2>
-            </div>
-
-            <div className="container">
-                <motion.img
-                    id="cover-img"
-                    className="img-border rounded-image"
-                    src="/cover.jpg"
+        <div id="page-container" className="container">
+            <div id="info-container" className="container">
+                <img
+                    src="https://github.com/mochamap1e.png?size=256"
                     draggable="false"
-                    animate={{
-                        rotate: 360
-                    }}
-                    transition={{
-                        duration: 10,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
                 />
 
-                <h2>bossa lullaby - nicopatty</h2>
+                <div>
+                    <h1>mochamap1e</h1>
+                    <p>{bioText}</p>
+                </div>
+            </div>
 
-                <MusicButton src="/icons/play.svg" />
+            <div id="links-container" className="container">
+                <Link>projects</Link>
+                <Link>socials</Link>
+                <Link>setup</Link>
             </div>
         </div>
     )
