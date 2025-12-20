@@ -1,57 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
 
-:root {
-    --border: solid white;
-}
-
-/* elements */
-
 body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh;
-
-    color: white;
     background-color: black;
-
-    font-family: "Inconsolata", Arial, Helvetica, sans-serif;
-    
     margin: 0;
-    
-    overflow: hidden;
-}
-
-img {
-    width: 150px;
-    
-    border: 3px var(--border);
-    border-radius: 50%;
-
-    pointer-events: none;
-}
-
-/* classes */
-
-.container {
-    display: flex;
-    align-items: center;
-}
-
-/* ids */
-
-#page-container {
-    gap: 100px;
-}
-
-#info-container {
-    border: 2px var(--border);
-    border-radius: 10px;
-
-    gap: 50px;
-    padding: 30px 40px;
-}
-
-#links-container {
-    flex-direction: column;
 }
