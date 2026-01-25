@@ -24,12 +24,13 @@ h1 {
     font-size: 80px;
     font-weight: normal;
 
-    user-select: none;
-    pointer-events: none;
+    text-wrap: nowrap;
+    -webkit-text-stroke: 3px black;
 
     margin: 0;
 
-    -webkit-text-stroke: 3px black;
+    user-select: none;
+    pointer-events: none;
 }
 
 .text {
