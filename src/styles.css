@@ -1,7 +1,40 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@200..900&display=swap");
+@font-face {
+    font-family: "Pusab";
+    src: url("/fonts/Pusab.woff2") format("woff2");
+}
 
 body {
+    color: white;
     background-color: black;
+
+    font-family: "Pusab";
+
     margin: 0;
     overflow: hidden;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+h1 {
+    font-size: 80px;
+    font-weight: normal;
+
+    user-select: none;
+    pointer-events: none;
+
+    margin: 0;
+
+    -webkit-text-stroke: 3px black;
+}
+
+.text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
