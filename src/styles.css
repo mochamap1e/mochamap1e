@@ -85,3 +85,10 @@ h1, p {
 .social:hover {
     transform: scale(1.15);
 }
+
+@media (max-width: 600px) {
+    #container {
+        flex-direction: column;
+        gap: 15px;
+    }
+}
