@@ -95,7 +95,7 @@ export default function Ballpit({ limit }) {
             const y = -500;
 
             const options = {
-                restitution: 0.9, // bouncy
+                restitution: 0.95, // bouncy
                 render: {
                     sprite: {
                         texture: `/orbs/${selectedOrb}.png`,
