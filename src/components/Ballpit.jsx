@@ -1,10 +1,11 @@
-import Matter, { Body } from "matter-js";
-import { random, randomInt } from "mathjs";
+import Matter from "matter-js";
+import { randomInt } from "mathjs";
 import { useRef, useEffect } from "react";
 
-export default function Ballpit() {
+export default function Ballpit({ limit }) {
     const canvasRef = useRef(null);
     const orbTimeoutRef = useRef(null);
+    const numOrbsRef = useRef(0);
 
     useEffect(() => {
         const canvas = canvasRef.current; if (!canvas) return;
@@ -14,6 +15,7 @@ export default function Ballpit() {
         const Engine = Matter.Engine,
             Render = Matter.Render,
             Runner = Matter.Runner,
+            Body = Matter.Body,
             Bodies = Matter.Bodies,
             Composite = Matter.Composite,
             Mouse = Matter.Mouse,
@@ -81,6 +83,8 @@ export default function Ballpit() {
         ];
 
         function orb() {
+            if (numOrbsRef.current > limit) return;
+
             const selectedOrb = orbs[randomInt(0, orbs.length - 1)];
 
             const radius = randomInt(40, 60);
@@ -114,6 +118,7 @@ export default function Ballpit() {
 
             if (document.hasFocus()) {
                 Composite.add(engine.world, body);
+                numOrbsRef.current++;
             }
 
             orbTimeoutRef.current = setTimeout(orb, randomInt(1, 3) * 1000);
