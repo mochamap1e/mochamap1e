@@ -1,9 +1,10 @@
 import Matter, { Body } from "matter-js";
-import { randomInt } from "mathjs";
+import { random, randomInt } from "mathjs";
 import { useRef, useEffect } from "react";
 
 export default function Ballpit() {
     const canvasRef = useRef(null);
+    const orbTimeoutRef = useRef(null);
 
     useEffect(() => {
         const canvas = canvasRef.current; if (!canvas) return;
@@ -29,6 +30,8 @@ export default function Ballpit() {
             background: "transparent"
         }});
 
+        const runner = Runner.create();
+
         Composite.add(engine.world, MouseConstraint.create(engine, {
             mouse: Mouse.create(render.canvas),
             constraint: {
@@ -48,10 +51,17 @@ export default function Ballpit() {
         const borderHeight = 999999;
         const halfBorderThickness = borderThickness / 2;
 
+        const borderProperties = {
+            isStatic: true,
+            render: {
+                visible: false
+            }
+        }
+
         Composite.add(engine.world, [
-            Bodies.rectangle(halfWidth, height + halfBorderThickness, width, borderThickness, { isStatic: true }), // ground
-            Bodies.rectangle(-halfBorderThickness, halfHeight, borderThickness, borderHeight, { isStatic: true }), // left
-            Bodies.rectangle(width + halfBorderThickness, halfHeight, borderThickness, borderHeight, { isStatic: true }) // right
+            Bodies.rectangle(halfWidth, height + halfBorderThickness, width, borderThickness, borderProperties), // ground
+            Bodies.rectangle(-halfBorderThickness, halfHeight, borderThickness, borderHeight, borderProperties), // left
+            Bodies.rectangle(width + halfBorderThickness, halfHeight, borderThickness, borderHeight, borderProperties) // right
         ]);
 
         // ball pit
@@ -70,7 +80,9 @@ export default function Ballpit() {
             "yellow"
         ];
 
-        function orb(image) {
+        function orb() {
+            const selectedOrb = orbs[randomInt(0, orbs.length - 1)];
+
             const radius = randomInt(40, 60);
             const diameter = radius * 2;
             const scale = diameter / 120; // 120x120 images
@@ -82,7 +94,7 @@ export default function Ballpit() {
                 restitution: 0.9, // bouncy
                 render: {
                     sprite: {
-                        texture: `/orbs/${image}.png`,
+                        texture: `/orbs/${selectedOrb}.png`,
                         xScale: scale,
                         yScale: scale
                     }
@@ -91,28 +103,28 @@ export default function Ballpit() {
 
             let body;
 
-            if (image !== "toggle") {
+            if (selectedOrb !== "toggle") {
                 body = Bodies.circle(x, y, radius, options);
             } else {
                 body = Bodies.rectangle(x, y, diameter, diameter, options);
             }
 
-            Body.setVelocity(body, { x: randomInt(-5, 5), y: 0 });
+            Body.setVelocity(body, { x: randomInt(-10, 10), y: 0 });
             Body.setAngle(body, randomInt(-180, 180) * (Math.PI / 180));
 
-            return body;
+            if (document.hasFocus()) {
+                Composite.add(engine.world, body);
+            }
+
+            orbTimeoutRef.current = setTimeout(orb, randomInt(1, 3) * 1000);
         }
 
-        setInterval(() => {
-            if (document.hasFocus()) {
-                Composite.add(engine.world, orb(orbs[randomInt(0, orbs.length - 1)]));
-            }
-        }, 1000);
+        orb();
 
         // render
-        
+
         Render.run(render);
-        Runner.run(Runner.create(), engine);
+        Runner.run(runner, engine);
 
         function resize() {
             const width = window.innerWidth;
@@ -127,8 +139,16 @@ export default function Ballpit() {
         resize();
 
         window.addEventListener("resize", resize);
-        return () => window.removeEventListener("resize", resize);
-    }, [])
+        
+        return () => {
+            Render.stop(render);
+            Runner.stop(runner);
+
+            clearTimeout(orbTimeoutRef.current);
+
+            window.removeEventListener("resize", resize);
+        }
+    }, []);
 
     return <canvas ref={canvasRef}/>
 }
