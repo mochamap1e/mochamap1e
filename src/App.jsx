@@ -41,7 +41,7 @@ export default function App() {
                         <Social title="GitHub" image="github.svg" url="https://github.com/mochamap1e"/>
                         <Social title="Discord" image="discord.svg" url="https://discord.com/users/1369412711024169140"/>
                         <Social title="YouTube" image="youtube.svg" url="https://www.youtube.com/@mocchamaple"/>
-                        <Social title="Twitch" image="twitch.svg" url="https://www.youtube.com/@mocchamaple"/>
+                        <Social title="Twitch" image="twitch.svg" url="https://www.twitch.tv/mocchamaple"/>
                         <Social title="Steam" image="steam.svg" url="https://steamcommunity.com/id/mochamap1e"/>
                         <Social title="Geometry Dash" image="gd.png" url="https://gdbrowser.com/u/mochamaple"/>
                     </div>
