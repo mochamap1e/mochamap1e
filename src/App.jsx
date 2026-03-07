@@ -43,7 +43,8 @@ export default function App() {
                         <Social title="YouTube" image="youtube.svg" url="https://www.youtube.com/@mocchamaple"/>
                         <Social title="Twitch" image="twitch.svg" url="https://www.twitch.tv/mocchamaple"/>
                         <Social title="Steam" image="steam.svg" url="https://steamcommunity.com/id/mochamap1e"/>
-                        <Social title="Geometry Dash" image="gd.png" url="https://gdbrowser.com/u/mochamaple"/>
+                        <Social title="Geometry Dash" image="gdlb.png" url="https://gdbrowser.com/u/mochamaple"/>
+                        <Social title="GD Demon Ladder" image="gddl.png" url="https://gdladder.com/profile/48503"/>
                     </div>
                 </div>
             </div>
