@@ -34,7 +34,7 @@ export default function App() {
                 <div id="items">
                     <div id="info">
                         <h1>mochamap1e</h1>
-                        <p>{bio}</p>
+                        <p>"{bio}"</p>
                     </div>
 
                     <div id="socials">
@@ -51,5 +51,5 @@ export default function App() {
 
             <Ballpit limit={40}/>
         </>
-    )
+    );
 }
