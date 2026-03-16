@@ -10,6 +10,7 @@ const octokit = new Octokit();
 
 export default function App() {
     const [bio, setBio] = useState("fetching...");
+    const [muted, setMuted] = useState(true);
 
     async function fetchBio() {
         try {
@@ -25,6 +26,8 @@ export default function App() {
     return (
         <>
             <div id="container">
+                <video id="video" src="/orbit.mp4" muted={muted} autoPlay={true} loop={true} disablePictureInPicture={true}/>
+
                 <img
                     id="pfp"
                     src="https://github.com/mochamap1e.png?size=256"
@@ -48,6 +51,10 @@ export default function App() {
                         <Social title="GD Demon Ladder" image="gddl.png" url="https://gdladder.com/profile/48503"/>
                     </div>
                 </div>
+
+                <a id="mute-toggle" onClick={() => setMuted(!muted)}>
+                    <img id="mute-toggle-img" src={muted ? "/icons/muted.svg" : "/icons/unmuted.svg"}/>
+                </a>
             </div>
 
             <Ballpit limit={40}/>

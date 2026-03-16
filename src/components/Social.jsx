@@ -6,7 +6,7 @@ export default function Social({ url, image, title }) {
         <img
             title={title}
             className="social"
-            src={`/socials/${image}`}
+            src={`/icons/${image}`}
             draggable={false}
         />
     </a>
