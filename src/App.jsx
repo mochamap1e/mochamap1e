@@ -48,7 +48,6 @@ export default function App() {
                         <Social title="Roblox" image="roblox.svg" url="https://www.roblox.com/users/711679058/profile"/>
                         <Social title="Steam" image="steam.svg" url="https://steamcommunity.com/id/mochamap1e"/>
                         <Social title="Geometry Dash" image="gdlb.png" url="https://gdbrowser.com/u/mochamaple"/>
-                        <Social title="GD Demon Ladder" image="gddl.png" url="https://gdladder.com/profile/48503"/>
                     </div>
                 </div>
 
