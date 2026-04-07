@@ -48,6 +48,7 @@ export default function App() {
                         <Social title="Roblox" image="roblox.svg" url="https://www.roblox.com/users/711679058/profile"/>
                         <Social title="Steam" image="steam.svg" url="https://steamcommunity.com/id/mochamap1e"/>
                         <Social title="Geometry Dash" image="gdlb.png" url="https://gdbrowser.com/u/mochamaple"/>
+                        <Social title="Ko-fi" image="kofi.svg" url="https://ko-fi.com/mochamap1e"/>
                     </div>
                 </div>
 
