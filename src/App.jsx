@@ -26,7 +26,7 @@ export default function App() {
     return (
         <>
             <div id="container">
-                <video id="video" src="/orbit.mp4" muted={muted} autoPlay={true} loop={true} disablePictureInPicture={true}/>
+                <video id="video" src="https://res.cloudinary.com/dwjlqto7p/video/upload/v1779646854/orbit_dvfk7y.mp4" muted={muted} autoPlay={true} loop={true} disablePictureInPicture={true}/>
 
                 <img
                     id="pfp"
