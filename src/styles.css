@@ -88,6 +88,13 @@ h1, p {
     gap: 5px;
 }
 
+#info div, #info a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 #socials {
     display: flex;
     justify-content: center;

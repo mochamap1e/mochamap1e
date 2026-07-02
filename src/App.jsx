@@ -36,7 +36,10 @@ export default function App() {
 
                 <div id="items">
                     <div id="info">
-                        <h1>mochamap1e</h1>
+                        <div>
+                            <h1>mochamap1e</h1>
+                            <Social title="pronouns.cc" image="pronounscc.svg" url="https://pronouns.cc/@mochamap1e"/>
+                        </div>
                         <p>"{bio}"</p>
                     </div>
 
