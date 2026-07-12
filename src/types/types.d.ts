@@ -22,3 +22,8 @@ interface FmImage {
     size: "small" | "medium" | "large" | "extralarge",
     "#text": string
 }
+
+interface FmCache {
+    data: FmTrack,
+    date: number
+}

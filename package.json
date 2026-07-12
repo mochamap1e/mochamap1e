@@ -12,7 +12,8 @@
         "axios": "^1.18.1",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
-        "shaders": "^2.5.135"
+        "shaders": "^2.5.135",
+        "usehooks-ts": "^3.1.1"
     },
     "devDependencies": {
         "@types/node": "^24.13.2",
