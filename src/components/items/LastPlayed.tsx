@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useLocalStorage } from "usehooks-ts";
 
 export function LastPlayed() {
     const [name, setName] = useState("...");
@@ -8,8 +7,6 @@ export function LastPlayed() {
     const [album, setAlbum] = useState("...");
     const [time, setTime] = useState("...");
     const [image, setImage] = useState("...");
-
-    const [cache, setCache] = useLocalStorage<FmCache | undefined>("fmcache", undefined);
 
     function getRelativeTime(uts: number) {
         const timestamp = uts * 1000;
@@ -36,37 +33,24 @@ export function LastPlayed() {
     }
 
     useEffect(() => {
-        let data: FmTrack | undefined = undefined;
-
         async function fetch() {
             try {
                 const response = await axios.get("http://127.0.0.1:8787/api/fm");
+                const data: FmTrack = response.data;
 
-                data = response.data;
+                const image = data.image.find(image => image.size === "large");
+                if (image) setImage(image["#text"]);
 
-                if (data) setCache({ data, date: Date.now() });
+                setName(data.name);
+                setArtist(data.artist["#text"]);
+                setAlbum(data.album["#text"]);
+                setTime(getRelativeTime(parseInt(data.date.uts)));
             } catch(error) {
                 return console.error(error);
             }
         }
 
-        if (cache) {
-            if ((Date.now() - cache.date) > 1) {
-                fetch();
-            } else {
-                data = cache;
-            }
-        } else {
-            fetch();
-        }
-
-        const image = data.image.find(image => image.size === "large");
-        if (image) setImage(image["#text"]);
-
-        setName(data.name);
-        setArtist(data.artist["#text"]);
-        setAlbum(data.album["#text"]);
-        setTime(getRelativeTime(parseInt(data.date.uts)));
+        fetch();
     }, []);
 
     return (
@@ -74,7 +58,7 @@ export function LastPlayed() {
             <p>Name: {name}</p>
             <p>Artist: {artist}</p>
             <p>Album: {album}</p>
-            <p>Time: {time}</p>
+            <p>{time}</p>
             <img src={image}/>
         </div>
     );

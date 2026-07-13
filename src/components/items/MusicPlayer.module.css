@@ -1,0 +1,10 @@
+.cover {
+    height: 128px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}

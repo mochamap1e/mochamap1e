@@ -1,4 +1,6 @@
 import { LastPlayed } from "./components/items/LastPlayed";
+import { Me } from "./components/items/Me";
+import { MusicPlayer } from "./components/items/MusicPlayer";
 import { Background } from "./components/Background";
 
 import "./styles.css";
@@ -6,8 +8,9 @@ import "./styles.css";
 export function App() {
     return (
         <div>
-            <h1>mochaa</h1>
-            <LastPlayed/>
+            <Me/>
+            {/*<LastPlayed/>*/}
+            <MusicPlayer/>
             <Background/>
         </div>
     );
