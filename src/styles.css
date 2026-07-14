@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
 body {
-    margin: 0;
+    margin: 40px;
     color: white;
 }
 
@@ -11,4 +11,9 @@ body, button, input {
 
 h1, p {
     margin: 0;
+}
+
+img {
+    user-select: none;
+    pointer-events: none;
 }
