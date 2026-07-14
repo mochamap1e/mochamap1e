@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import { Shader, ChromaticAberration, FlowingGradient } from "shaders/react";
+import { randomInt } from "mathjs";
 
 import { useLoudness } from "../stores";
 
 import styles from "./Background.module.css";
-
-function randomInt(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 export function Background() {
     const [multiplier, setMultiplier] = useState(1);

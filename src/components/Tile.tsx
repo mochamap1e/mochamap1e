@@ -2,7 +2,7 @@ import type { ReactElement } from "react";
 
 import styles from "./Tile.module.css";
 
-export function Tile({ children }: { children: ReactElement[] }) {
+export function Tile({ children }: { children: ReactElement | ReactElement[] }) {
     return (
         <div className={styles.tile}>
             {children}
