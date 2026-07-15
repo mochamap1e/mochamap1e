@@ -6,10 +6,8 @@ import { Tile } from "../Tile";
 
 import styles from "./Ballpit.module.css";
 
-export function Ballpit({ limit }: { limit: number }) {
+export function Ballpit({ count }: { count: number }) {
     const canvasRef = useRef(null);
-    const orbTimeoutRef = useRef<number | undefined>(undefined);
-    const numOrbsRef = useRef(0);
 
     useEffect(() => {
         const canvas = canvasRef.current; if (!canvas) return;
@@ -92,10 +90,10 @@ export function Ballpit({ limit }: { limit: number }) {
             "yellow"
         ];
 
-        function orb() {
-            if (numOrbsRef.current > limit) return;
+        let bodies: Matter.Body[] = [];
 
-            const selectedOrb = orbs[randomInt(0, orbs.length - 1)];
+        for (let i = 0; i < count; i++) {
+            const selectedOrb = orbs[randomInt(0, orbs.length)];
 
             const radius = randomInt(40, 60);
             const diameter = radius * 2;
@@ -117,24 +115,19 @@ export function Ballpit({ limit }: { limit: number }) {
 
             let body;
 
-            if (selectedOrb !== "toggle") {
-                body = Bodies.circle(x, y, radius, options);
-            } else {
+            if (selectedOrb === "toggle") {
                 body = Bodies.rectangle(x, y, diameter, diameter, options);
+            } else {
+                body = Bodies.circle(x, y, radius, options);
             }
 
             Body.setVelocity(body, { x: randomInt(-10, 10), y: 0 });
             Body.setAngle(body, randomInt(-180, 180) * (Math.PI / 180));
 
-            if (document.hasFocus()) {
-                Composite.add(engine.world, body);
-                numOrbsRef.current++;
-            }
-
-            orbTimeoutRef.current = setTimeout(orb, randomInt(1, 3) * 1000);
+            bodies.push(body);
         }
 
-        orb();
+        Composite.add(engine.world, bodies);
 
         // render
 
@@ -142,16 +135,15 @@ export function Ballpit({ limit }: { limit: number }) {
         Runner.run(runner, engine);
 
         // cleanup
+
         return () => {
             Render.stop(render);
             Runner.stop(runner);
-
-            clearTimeout(orbTimeoutRef.current);
         }
     }, []);
 
     return (
-        <Tile>
+        <Tile title="Ballpit">
             <canvas
                 className={styles.canvas}
                 ref={canvasRef}

@@ -1,12 +1,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
 
 body {
+    display: flex;
     margin: 40px;
-    color: white;
 }
 
-body, button, input {
+body, a, button, input {
+    color: white;
     font-family: "Quicksand", Arial, Helvetica, sans-serif;
+    text-decoration: none;
 }
 
 h1, p {
@@ -16,4 +18,18 @@ h1, p {
 img {
     user-select: none;
     pointer-events: none;
+}
+
+.container {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.content {
+    align-items: center;
+}
+
+.container, .content {
+    display: flex;
+    gap: 20px;
 }

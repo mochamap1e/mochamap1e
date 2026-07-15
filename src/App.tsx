@@ -1,6 +1,6 @@
-import { Me } from "./components/items/Me";
-import { MusicPlayer } from "./components/items/MusicPlayer";
-import { Ballpit } from "./components/items/Ballpit";
+import { Me } from "./components/tiles/Me";
+import { LastPlayed } from "./components/tiles/LastPlayed";
+import { Ballpit } from "./components/tiles/Ballpit";
 
 import { Background } from "./components/Background";
 
@@ -8,11 +8,12 @@ import "./styles.css";
 
 export function App() {
     return (
-        <div>
+        <div className="container">
             <Me/>
-            <MusicPlayer/>
+            <LastPlayed/>
+            <Ballpit count={10}/>
+
             <Background/>
-            <Ballpit limit={10}/>
         </div>
     );
 }

@@ -1,12 +1,21 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+import { Tile } from "../Tile";
+
+import styles from "./LastPlayed.module.css";
+
+function Link({ children, href }: { children: any, href: string }) {
+    return (<a
+        className={styles.link}
+        href={href}
+        target="_blank"
+    >{children}</a>);
+}
+
 export function LastPlayed() {
-    const [name, setName] = useState("...");
-    const [artist, setArtist] = useState("...");
-    const [album, setAlbum] = useState("...");
-    const [time, setTime] = useState("...");
-    const [image, setImage] = useState("...");
+    const [data, setData] = useState<FmTrack | null>(null);
+    const [image, setImage] = useState("");
 
     function getRelativeTime(uts: number) {
         const timestamp = uts * 1000;
@@ -33,7 +42,7 @@ export function LastPlayed() {
     }
 
     useEffect(() => {
-        async function fetch() {
+        async function getLastPlayed() {
             try {
                 const response = await axios.get("http://127.0.0.1:8787/api/fm");
                 const data: FmTrack = response.data;
@@ -41,25 +50,40 @@ export function LastPlayed() {
                 const image = data.image.find(image => image.size === "large");
                 if (image) setImage(image["#text"]);
 
+                setData(data);
+                /*
                 setName(data.name);
+                setNameLink(data.url);
+
                 setArtist(data.artist["#text"]);
                 setAlbum(data.album["#text"]);
-                setTime(getRelativeTime(parseInt(data.date.uts)));
+                setTime();
+                */
             } catch(error) {
                 return console.error(error);
             }
         }
 
-        fetch();
+        getLastPlayed();
     }, []);
 
-    return (
-        <div>
-            <p>Name: {name}</p>
-            <p>Artist: {artist}</p>
-            <p>Album: {album}</p>
-            <p>{time}</p>
-            <img src={image}/>
-        </div>
-    );
+    if (data) {
+        return (
+            <Tile title="LastPlayed" className={styles.tile}>
+                {data && (
+                    <div className="content">
+                        <img src={image} className={styles.cover}/>
+
+                        <p>
+                            <Link href={data.url}>{data.name}</Link>
+                            {" - "}
+                            <Link href={`https://last.fm/music/${data.artist["#text"]}`}>{data.artist["#text"]}</Link>
+                        </p>
+
+                        <p>{getRelativeTime(parseInt(data.date.uts))}</p>
+                    </div>
+                )}
+            </Tile>
+        );
+    }
 }
