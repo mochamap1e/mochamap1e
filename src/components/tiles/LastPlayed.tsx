@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -72,7 +73,7 @@ export function LastPlayed() {
             <Tile title="LastPlayed" className={styles.tile}>
                 {data && (
                     <div className="content">
-                        <img src={image} className={styles.cover}/>
+                        <img src={image} className={clsx(styles.cover, "border")}/>
 
                         <p>
                             <Link href={data.url}>{data.name}</Link>

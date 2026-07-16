@@ -7,9 +7,9 @@ export function Tile(
     { children: any, title: string, className?: string }
 ) {
     return (
-        <div className={clsx(styles.tile, className)}>
+        <div className={clsx(styles.tile, "border")}>
             <p className={styles.title}>{title}.tsx</p>
-            <div className="content">
+            <div className={clsx("content", className)}>
                 {children}
             </div>
         </div>

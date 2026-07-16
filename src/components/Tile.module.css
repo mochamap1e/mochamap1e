@@ -4,10 +4,6 @@
     padding: 25px;
 }
 
-.tile, .tile img {
-    border: 4px solid rgba(0, 0, 0, 0.2);
-}
-
 .title {
     font-weight: bold;
     margin-bottom: 25px;

@@ -44,8 +44,8 @@ export function Ballpit({ count }: { count: number }) {
             }
         }));
 
-        const width = 1000;
-        const height = 500;
+        const width = 750;
+        const height = 400;
 
         render.canvas.width = width;
         render.canvas.height = height;
