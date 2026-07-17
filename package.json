@@ -9,19 +9,14 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "axios": "^1.18.1",
         "clsx": "^2.1.1",
-        "howler": "^2.2.4",
         "mathjs": "^15.2.0",
         "matter-js": "^0.20.0",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
-        "shaders": "^2.5.135",
-        "usehooks-ts": "^3.1.1",
-        "zustand": "^5.0.14"
+        "shaders": "^2.5.135"
     },
     "devDependencies": {
-        "@types/howler": "^2.2.13",
         "@types/matter-js": "^0.20.2",
         "@types/node": "^24.13.2",
         "@types/react": "^19.2.17",

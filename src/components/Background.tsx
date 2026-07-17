@@ -5,7 +5,7 @@ import { randomInt } from "mathjs";
 import styles from "./Background.module.css";
 
 export function Background() {
-    const [seed] = useState(() => randomInt(100000, 999999));
+    const [seed] = useState(() => randomInt(1000, 9999));
 
     return (
         <Shader className={styles.shader}>
