@@ -1,7 +1,3 @@
-.pfpImg {
-    height: 150px;
-}
-
 .indicator {
     position: absolute;
     bottom: 14px;
@@ -16,23 +12,23 @@
     height: 28px;
 }
 
-.game {
-    display: inline-block;
-    height: 128px;
-}
-
-.largeImg {
-    height: 100%;
-}
-
-.pfp, .game {
+.pfp {
     position: relative;
 }
 
-.pfpImg, .indicator, .smallImg {
+.pfpImg, .largeImg {
+    height: 150px;
+}
+
+.pfpImg,
+.indicator,
+.smallImg {
     border-radius: 50% !important;
 }
 
-.pfpImg, .indicator, .game, .smallImg, .largeImg {
+.pfpImg,
+.indicator,
+.smallImg,
+.largeImg {
     aspect-ratio: 1/1;
 }

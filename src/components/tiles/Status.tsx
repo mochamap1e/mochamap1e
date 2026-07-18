@@ -16,11 +16,46 @@ export function Status() {
     const [statusQuote, setStatusQuote] = useState<string | undefined>("...");
 
     const [song, setSong] = useState<SongData | undefined>();
+
     const [game, setGame] = useState<GameData | undefined>();
+    const [gameTimeElapsed, setGameTimeElapsed] = useState<string | undefined>();
 
     const userId = "1369412711024169140";
 
-    function appAsset(appId: string, assetId: string) { return `https://cdn.discordapp.com/app-assets/${appId}/${assetId}.png` }
+    function appAsset(appId: string, assetId: string) { return `https://cdn.discordapp.com/app-assets/${appId}/${assetId}.png`; }
+    function songAsset(uri: string) { return uri.substring(uri.indexOf("https")).replace("https", "https:/"); }
+
+    function Presence({ text, largeImage, largeImageText, smallImage, smallImageText, children } : {
+        text: string,
+        largeImage: string | undefined,
+        largeImageText: string | undefined,
+        smallImage: string | undefined,
+        smallImageText: string | undefined,
+        children?: any
+    }) {
+        function Image({ style, src, text }: { style: string, src: string, text?: string }) {
+            return (<img
+                className={clsx(style, "border")}
+                src={src}
+                title={text ? text : undefined}
+            />);
+        }
+
+        return (
+            <div>
+                <h2>{text}</h2>
+                <div>
+                    {largeImage && (<Image style={styles.largeImg} src={largeImage} text={largeImageText}/>)}
+                    {smallImage && (<Image style={styles.smallImg} src={smallImage} text={smallImageText}/>)}
+                </div>
+                {children && (
+                    <div>
+                        {children}
+                    </div>
+                )}
+            </div>
+        );
+    }
 
     // socket main
     useEffect(() => {
@@ -60,7 +95,7 @@ export function Status() {
 
     // data handler
     useEffect(() => {
-        if (!status) return; console.log("status:", status);
+        if (!status) return;
 
         //////////// info ////////////
 
@@ -99,15 +134,17 @@ export function Status() {
         });
 
         if (songActivity) {
-            // handle weird ass apple music image link
-            let image = songActivity.assets.large_image;
-            image = image.substring(image.indexOf("https")).replace("https", "https:/");
-
             setSong({
-                image,
+                largeImage: songAsset(songActivity.assets.large_image),
+                largeImageText: songActivity.assets.large_text,
+                smallImage: songAsset(songActivity.assets.small_image),
+                smallImageText: songActivity.assets.small_text,
                 title: songActivity.details,
                 artist: songActivity.state,
-                url: songActivity.details_url
+                album: songActivity.assets.large_text,
+                url: songActivity.details_url,
+                timeStart: songActivity.timestamps.start,
+                timeEnd: songActivity.timestamps.end
             });
 
             remove(songActivity);
@@ -122,6 +159,7 @@ export function Status() {
         if (gameActivity) {
             const gameData: GameData = {
                 appId: gameActivity.application_id,
+                timestamp: gameActivity.timestamps.start,
                 name: gameActivity.name
             };
 
@@ -142,6 +180,35 @@ export function Status() {
             setGame(undefined);
         }
     }, [status]);
+
+    // game time
+    useEffect(() => {
+        function updateTimeElapsed(){
+            if (!game) {
+                setGameTimeElapsed(undefined);
+                return;
+            };
+
+            const currentTime = Date.now();
+            const elapsedMilliseconds = currentTime - game.timestamp;
+            const totalSeconds = Math.floor(elapsedMilliseconds / 1000);
+
+            const hours = String(Math.floor(totalSeconds / 3600)).padStart(1, "0");
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(1, "0");
+            const seconds = String(totalSeconds % 60).padStart(2, "0");
+
+            if (hours === "0") {
+                setGameTimeElapsed(`${minutes}:${seconds}`);
+            } else {
+                setGameTimeElapsed(`${hours}:${minutes}:${seconds}`);
+            }
+        }
+
+        updateTimeElapsed();
+        const interval = setInterval(updateTimeElapsed, 1000);
+
+        return () => clearInterval(interval);
+    }, [game]);
 
     return (
         <Tile title="Status">
@@ -164,28 +231,32 @@ export function Status() {
             </div>
 
             {game && (
-                <div>
-                    <h1>Playing:</h1>
-                    <div className={styles.game}>
-                        {game.largeImage && (<img className={clsx(styles.largeImg, "border")} src={appAsset(game.appId, game.largeImage)}/>)}
-                        {game.smallImage && (<img className={clsx(styles.smallImg, "border")} src={appAsset(game.appId, game.smallImage)}/>)}
-                    </div>
-
+                <Presence
+                    text="Playing"
+                    largeImage={game.largeImage && appAsset(game.appId, game.largeImage)}
+                    largeImageText={game.largeImageText && (game.largeImageText)}
+                    smallImage={game.smallImage && appAsset(game.appId, game.smallImage)}
+                    smallImageText={game.smallImageText && (game.smallImageText)}
+                >
                     <p>{game.name}</p>
-
                     {game.details && (<p>{game.details}</p>)}
                     {game.state && (<p>{game.state}</p>)}
-                </div>
+                    {gameTimeElapsed && (<p>{gameTimeElapsed}</p>)}
+                </Presence>
             )}
 
             {song && (
-                <div>
-                    <h1>Listening to:</h1>
-                    <img className="border" src={song.image}/>
-                    <a href={song.url} target="_blank">
-                        <p>{song.title} - {song.artist}</p>
-                    </a>
-                </div>
+                <Presence
+                    text="Listening to"
+                    largeImage={song.largeImage}
+                    largeImageText={song.largeImageText && (song.largeImageText)}
+                    smallImage={song.smallImage}
+                    smallImageText={song.smallImageText && (song.smallImageText)}
+                >
+                    <p>{song.title}</p>
+                    <p>{song.artist}</p>
+                    <p>{song.album}</p>
+                </Presence>
             )}
         </Tile>
     )
