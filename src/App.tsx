@@ -10,7 +10,7 @@ import "./styles.css";
 export function App() {
     return (
         <div className="container">
-            <Me/>
+            {/*<Me/>*/}
             <Status/>
             <Socials/>
             <Ballpit count={10}/>

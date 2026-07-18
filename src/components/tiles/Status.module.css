@@ -1,0 +1,19 @@
+.pfp {
+    position: relative;
+}
+
+.pfpImg {
+    height: 150px;
+}
+
+.indicator {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    height: 24px;
+}
+
+.pfpImg, .indicator {
+    aspect-ratio: 1/1;
+    border-radius: 50% !important;
+}

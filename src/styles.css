@@ -21,8 +21,14 @@ img {
     pointer-events: none;
 }
 
+a p { transition: 0.1s; }
+a:hover { text-decoration: underline; }
+a:hover p { transform: scale(1.03); }
+a:active p { transform: scale(0.97); }
+
 .border {
     border: 4px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
 }
 
 .container {
