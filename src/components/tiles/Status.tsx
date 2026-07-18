@@ -36,10 +36,10 @@ export function Status() {
                 const data = JSON.parse(event.data);
 
                 if (data.op === 0) { //// presence update
-                    data.t === "INIT_STATE" ? setStatus(data.d[userId]) : setStatus(data.d);
+                    setStatus(data.d);
                 } else if (data.op === 1) { //// initialization
                     // subscribe
-                    message({ op: 2, d: { subscribe_to_ids: [userId] } });
+                    message({ op: 2, d: { subscribe_to_id: userId } });
 
                     // heartbeat
                     heartbeat();
@@ -145,15 +145,17 @@ export function Status() {
 
     return (
         <Tile title="Status">
-            <div className={styles.pfp}>
-                {pfp && (<img className={clsx(styles.pfpImg, "border")} src={pfp}/>)}
-                <div 
-                    className={clsx(styles.indicator, "border")}
-                    style={{
-                        backgroundColor: online ? "#9dce69" : "#6f789f"
-                    }}
-                />
-            </div>
+            {pfp && (
+                <div className={styles.pfp}>
+                    <img className={clsx(styles.pfpImg, "border")} src={pfp}/>
+                    <div 
+                        className={clsx(styles.indicator, "border")}
+                        style={{
+                            backgroundColor: online ? "#9dce69" : "#6f789f"
+                        }}
+                    />
+                </div>
+            )}
 
             <div>
                 <h1>{nickname}</h1>
@@ -164,7 +166,10 @@ export function Status() {
             {game && (
                 <div>
                     <h1>Playing:</h1>
-                    {game.largeImage && (<img src={appAsset(game.appId, game.largeImage)}/>)}
+                    <div className={styles.game}>
+                        {game.largeImage && (<img className={clsx(styles.largeImg, "border")} src={appAsset(game.appId, game.largeImage)}/>)}
+                        {game.smallImage && (<img className={clsx(styles.smallImg, "border")} src={appAsset(game.appId, game.smallImage)}/>)}
+                    </div>
 
                     <p>{game.name}</p>
 
