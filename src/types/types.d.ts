@@ -1,4 +1,4 @@
-interface GameData {
+interface Game {
     appId: string,
     timestamp: number,
     name: string,
@@ -10,7 +10,7 @@ interface GameData {
     smallImageText?: string
 }
 
-interface SongData {
+interface Song {
     largeImage: string,
     largeImageText?: string,
     smallImage: string,
@@ -21,4 +21,15 @@ interface SongData {
     url: string,
     timeStart: number,
     timeEnd: number
+}
+
+interface Status {
+    pfp: string,
+    nickname: string,
+    username: string,
+    online: boolean,
+    quote?: string,
+    song?: Song,
+    game?: Game,
+    gameTimeElapsed?: string
 }

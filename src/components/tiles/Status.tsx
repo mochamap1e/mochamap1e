@@ -6,19 +6,7 @@ import { Tile } from "../Tile";
 import styles from "./Status.module.css";
 
 export function Status() {
-    const [status, setStatus] = useState<any>(undefined);
-
-    const [pfp, setPfp] = useState<string | undefined>(undefined);
-    const [nickname, setNickname] = useState("...");
-    const [username, setUsername] = useState("...");
-    
-    const [online, setOnline] = useState(false);
-    const [statusQuote, setStatusQuote] = useState<string | undefined>("...");
-
-    const [song, setSong] = useState<SongData | undefined>();
-
-    const [game, setGame] = useState<GameData | undefined>();
-    const [gameTimeElapsed, setGameTimeElapsed] = useState<string | undefined>();
+    const [status, setStatus] = useState<Status | undefined>(undefined);
 
     const userId = "1369412711024169140";
 
@@ -59,6 +47,8 @@ export function Status() {
 
     // socket main
     useEffect(() => {
+        //// WEBSOCKET SETUP
+
         const socket = new WebSocket("wss://api.lanyard.rest/socket");
 
         let heartbeats: number | undefined = undefined;
@@ -71,7 +61,7 @@ export function Status() {
                 const data = JSON.parse(event.data);
 
                 if (data.op === 0) { //// presence update
-                    setStatus(data.d);
+                    parseStatus(data.d);
                 } else if (data.op === 1) { //// initialization
                     // subscribe
                     message({ op: 2, d: { subscribe_to_id: userId } });
@@ -87,177 +77,173 @@ export function Status() {
 
         socket.addEventListener("close", () => clearInterval(heartbeats));
 
+        //// DATA PARSER
+
+        function parseStatus(data: any) {
+            let parsed: Status = {
+                pfp: `https://cdn.discordapp.com/avatars/${userId}/${data.discord_user.avatar}.jpg?size=256`,
+                nickname: data.discord_user.global_name,
+                username: data.discord_user.username,
+                online: ["online", "idle", "dnd"].includes(data.discord_status)
+            }
+
+            //// activities
+
+            let activities = data.activities;
+
+            function remove(element: any) { activities.splice(activities.indexOf(element), 1); }
+
+            // 1. status
+
+            //@ts-ignore
+            const customActivity = activities.find(activity => activity.id === "custom");
+
+            if (customActivity) {
+                parsed.quote = customActivity.state;
+                remove(customActivity);
+            }
+
+            // 2. music
+
+            let songActivity: any;
+
+            //@ts-ignore
+            activities.forEach(activity => {
+                if (activity.details_url && activity.details_url.includes("song")) {
+                    songActivity = activity;
+                } 
+            });
+
+            if (songActivity) {
+                parsed.song = {
+                    largeImage: songAsset(songActivity.assets.large_image),
+                    largeImageText: songActivity.assets.large_text,
+                    smallImage: songAsset(songActivity.assets.small_image),
+                    smallImageText: songActivity.assets.small_text,
+                    title: songActivity.details,
+                    artist: songActivity.state,
+                    album: songActivity.assets.large_text,
+                    url: songActivity.details_url,
+                    timeStart: songActivity.timestamps.start,
+                    timeEnd: songActivity.timestamps.end
+                };
+
+                remove(songActivity);
+            }
+
+            // 3. game
+
+            const gameActivity = activities[0];
+
+            if (gameActivity) {
+                const game: Game = {
+                    appId: gameActivity.application_id,
+                    timestamp: gameActivity.timestamps.start,
+                    name: gameActivity.name
+                };
+
+                if (gameActivity.details) game.details = gameActivity.details;
+                if (gameActivity.state) game.state = gameActivity.state;
+
+                const assets = gameActivity.assets;
+
+                if (assets) {
+                    if (assets.large_image) game.largeImage = assets.large_image;
+                    if (assets.large_text) game.largeImageText = assets.large_text;
+                    if (assets.small_image) game.smallImage = assets.small_image;
+                    if (assets.small_text) game.smallImageText = assets.small_text;
+                }
+
+                parsed.game = game;
+            }
+
+            setStatus(parsed);
+        }
+
+        //// CLEANUP
+
         return () => {
             clearInterval(heartbeats);
             socket.close();
         }
     }, []);
 
-    // data handler
-    useEffect(() => {
-        if (!status) return;
-
-        //////////// info ////////////
-
-        setPfp(`https://cdn.discordapp.com/avatars/${userId}/${status.discord_user.avatar}.jpg?size=256`);
-        setNickname(status.discord_user.global_name);
-        setUsername(status.discord_user.username);
-        ["online", "idle", "dnd"].includes(status.discord_status) ? setOnline(true) : setOnline(false);
-
-        //////////// activity shit ////////////
-
-        let activities = status.activities;
-
-        function remove(element: any) { activities.splice(activities.indexOf(element), 1); }
-
-        //// 1. status
-
-        //@ts-ignore
-        const customActivity = activities.find(activity => activity.id === "custom");
-
-        if (customActivity) {
-            setStatusQuote(customActivity.state);
-            remove(customActivity);
-        } else {
-            setStatusQuote(undefined);
-        }
-
-        //// 2. music
-
-        let songActivity: any;
-
-        //@ts-ignore
-        activities.forEach(activity => {
-            if (activity.details_url && activity.details_url.includes("song")) {
-                songActivity = activity;
-            } 
-        });
-
-        if (songActivity) {
-            setSong({
-                largeImage: songAsset(songActivity.assets.large_image),
-                largeImageText: songActivity.assets.large_text,
-                smallImage: songAsset(songActivity.assets.small_image),
-                smallImageText: songActivity.assets.small_text,
-                title: songActivity.details,
-                artist: songActivity.state,
-                album: songActivity.assets.large_text,
-                url: songActivity.details_url,
-                timeStart: songActivity.timestamps.start,
-                timeEnd: songActivity.timestamps.end
-            });
-
-            remove(songActivity);
-        } else {
-            setSong(undefined);
-        }
-
-        //// 3. game
-
-        const gameActivity = activities[0];
-
-        if (gameActivity) {
-            const gameData: GameData = {
-                appId: gameActivity.application_id,
-                timestamp: gameActivity.timestamps.start,
-                name: gameActivity.name
-            };
-
-            if (gameActivity.details) gameData.details = gameActivity.details;
-            if (gameActivity.state) gameData.state = gameActivity.state;
-
-            const assets = gameActivity.assets;
-
-            if (assets) {
-                if (assets.large_image) gameData.largeImage = assets.large_image;
-                if (assets.large_text) gameData.largeImageText = assets.large_text;
-                if (assets.small_image) gameData.smallImage = assets.small_image;
-                if (assets.small_text) gameData.smallImageText = assets.small_text;
-            }
-
-            setGame(gameData);
-        } else {
-            setGame(undefined);
-        }
-    }, [status]);
-
     // game time
     useEffect(() => {
         function updateTimeElapsed(){
-            if (!game) {
-                setGameTimeElapsed(undefined);
-                return;
-            };
+            if (!status || !status.game) { return; };
 
             const currentTime = Date.now();
-            const elapsedMilliseconds = currentTime - game.timestamp;
+            const elapsedMilliseconds = currentTime - status.game.timestamp;
             const totalSeconds = Math.floor(elapsedMilliseconds / 1000);
 
             const hours = String(Math.floor(totalSeconds / 3600)).padStart(1, "0");
             const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(1, "0");
             const seconds = String(totalSeconds % 60).padStart(2, "0");
 
+            let gameTimeElapsed: string;
+
             if (hours === "0") {
-                setGameTimeElapsed(`${minutes}:${seconds}`);
+                gameTimeElapsed = `${minutes}:${seconds}`;
             } else {
-                setGameTimeElapsed(`${hours}:${minutes}:${seconds}`);
+                gameTimeElapsed = `${hours}:${minutes}:${seconds}`;
             }
+
+            setStatus(status => status ? { ...status, gameTimeElapsed } : status);
         }
 
         updateTimeElapsed();
         const interval = setInterval(updateTimeElapsed, 1000);
 
         return () => clearInterval(interval);
-    }, [game]);
+    }, [status]);
 
-    return (
+    return status ? (
         <Tile title="Status">
-            {pfp && (
-                <div className={styles.pfp}>
-                    <img className={clsx(styles.pfpImg, "border")} src={pfp}/>
-                    <div 
-                        className={clsx(styles.indicator, "border")}
-                        style={{
-                            backgroundColor: online ? "#9dce69" : "#6f789f"
-                        }}
-                    />
-                </div>
-            )}
-
-            <div>
-                <h1>{nickname}</h1>
-                <p>@{username}</p>
-                {status && (<p>"{statusQuote}"</p>)}
+            <div className={styles.pfp}>
+                <img className={clsx(styles.pfpImg, "border")} src={status.pfp}/>
+                <div 
+                    className={clsx(styles.indicator, "border")}
+                    style={{
+                        backgroundColor: status.online ? "#9dce69" : "#6f789f"
+                    }}
+                />
             </div>
 
-            {game && (
+            <div>
+                <h1>{status.nickname}</h1>
+                <p>@{status.username}</p>
+                {status && (<p>"{status.quote}"</p>)}
+            </div>
+
+            {status.game && (
                 <Presence
                     text="Playing"
-                    largeImage={game.largeImage && appAsset(game.appId, game.largeImage)}
-                    largeImageText={game.largeImageText && (game.largeImageText)}
-                    smallImage={game.smallImage && appAsset(game.appId, game.smallImage)}
-                    smallImageText={game.smallImageText && (game.smallImageText)}
+                    largeImage={status.game.largeImage && appAsset(status.game.appId, status.game.largeImage)}
+                    largeImageText={status.game.largeImageText && (status.game.largeImageText)}
+                    smallImage={status.game.smallImage && appAsset(status.game.appId, status.game.smallImage)}
+                    smallImageText={status.game.smallImageText && (status.game.smallImageText)}
                 >
-                    <p>{game.name}</p>
-                    {game.details && (<p>{game.details}</p>)}
-                    {game.state && (<p>{game.state}</p>)}
-                    {gameTimeElapsed && (<p>{gameTimeElapsed}</p>)}
+                    <p>{status.game.name}</p>
+                    {status.game.details && (<p>{status.game.details}</p>)}
+                    {status.game.state && (<p>{status.game.state}</p>)}
+                    {status.gameTimeElapsed && (<p>{status.gameTimeElapsed}</p>)}
                 </Presence>
             )}
 
-            {song && (
+            {status.song && (
                 <Presence
                     text="Listening to"
-                    largeImage={song.largeImage}
-                    largeImageText={song.largeImageText && (song.largeImageText)}
-                    smallImage={song.smallImage}
-                    smallImageText={song.smallImageText && (song.smallImageText)}
+                    largeImage={status.song.largeImage}
+                    largeImageText={status.song.largeImageText && (status.song.largeImageText)}
+                    smallImage={status.song.smallImage}
+                    smallImageText={status.song.smallImageText && (status.song.smallImageText)}
                 >
-                    <p>{song.title}</p>
-                    <p>{song.artist}</p>
-                    <p>{song.album}</p>
+                    <p>{status.song.title}</p>
+                    <p>{status.song.artist}</p>
+                    <p>{status.song.album}</p>
                 </Presence>
             )}
         </Tile>
-    )
+    ) : null;
 }
