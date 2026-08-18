@@ -1,9 +1,9 @@
 export function onRequest(context) {
-    const url = new URL(context.request.url)
+    const url = new URL(context.request.url);
     
     if (url.hostname.endsWith(".pages.dev")) {
-        return Response.redirect("https://mochamaple.cafe", 301)
+        return Response.redirect("https://mochamaple.cafe", 301);
     }
     
-    return context.next()
+    return context.next();
 }

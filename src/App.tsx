@@ -1,21 +1,28 @@
-import { Me } from "./components/tiles/Me";
-import { Status } from "./components/tiles/Status";
-import { Socials } from "./components/tiles/Socials";
-import { Ballpit } from "./components/tiles/Ballpit";
+import { useState } from "react";
+import { randomInt } from "mathjs";
+import { Shader, FlowingGradient } from "shaders/react";
 
-import { Background } from "./components/Background";
+import { Activity } from "./components/Activity";
 
 import "./styles.css";
 
 export function App() {
-    return (
-        <div className="container">
-            {/*<Me/>*/}
-            <Status/>
-            <Socials/>
-            <Ballpit count={10}/>
+    const [seed] = useState(() => randomInt(1000, 9999));
 
-            <Background/>
+    return (
+        <div>
+            {/* page */}
+            <Activity/>
+            
+            {/* background */}
+            <Shader className="background">
+                <FlowingGradient
+                    seed={seed}
+                    speed={2}
+                    colorC="#005d8f"
+                    colorD="#00b4cc"
+                />
+            </Shader>
         </div>
     );
 }
