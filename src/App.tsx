@@ -2,8 +2,6 @@ import { useState } from "react";
 import { randomInt } from "mathjs";
 import { Shader, FlowingGradient } from "shaders/react";
 
-import { Activity } from "./components/Activity";
-
 import "./styles.css";
 
 export function App() {
@@ -11,10 +9,16 @@ export function App() {
 
     return (
         <div>
-            {/* page */}
-            <Activity/>
-            
-            {/* background */}
+            <div className="container">
+                <div className="container">
+                    <img src="https://github.com/mochamap1e.png?size=128"/>
+                    <div>
+                        <h1>alex</h1>
+                        <p>@mochamap1e</p>
+                    </div>
+                </div>
+            </div>
+
             <Shader className="background">
                 <FlowingGradient
                     seed={seed}
