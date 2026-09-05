@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   shape-rendering="geometricPrecision"
+   text-rendering="geometricPrecision"
+   image-rendering="optimizeQuality"
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   viewBox="0 0 128 128"
+   version="1.1"
+   id="svg3"
+   width="128"
+   height="128"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <g
+     fill-rule="nonzero"
+     id="g3"
+     transform="matrix(0.24991702,0,0,0.24991702,9.1432141,0)">
+    <path
+       fill="#9F77F7"
+       d="m 402.42,237.79 -73.17,73.17 h -73.17 l -64.02,64.02 V 310.96 H 109.75 V 36.59 H 402.42 Z M 91.46,0 0,91.46 v 329.25 h 109.75 v 91.46 l 91.46,-91.46 h 73.17 L 439,256.08 V 0 Z"
+       id="path2"
+       style="fill:#ffffff" />
+    <path
+       fill="#9F77F7"
+       d="m 310.96,210.35 h 36.58 V 100.6 h -36.58 z m -100.61,0 h 36.59 V 100.6 h -36.59 z"
+       id="path3"
+       style="fill:#ffffff" />
+  </g>
+</svg>
