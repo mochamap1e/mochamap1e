@@ -13,7 +13,7 @@
     }
     
     :global(body) {
-        background-color: rgb(20, 20, 20);
+        background-color: rgb(5, 10, 20);
         margin: 0;
     }
 
