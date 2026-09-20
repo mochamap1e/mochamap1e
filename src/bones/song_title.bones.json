@@ -1,0 +1,50 @@
+{
+  "breakpoints": {
+    "375": {
+      "name": "song_title",
+      "viewportWidth": 359,
+      "width": 359,
+      "height": 18,
+      "bones": [
+        [
+          0,
+          0,
+          54.2261,
+          17,
+          8
+        ]
+      ]
+    },
+    "768": {
+      "name": "song_title",
+      "viewportWidth": 752,
+      "width": 752,
+      "height": 18,
+      "bones": [
+        [
+          0,
+          0,
+          25.8872,
+          17,
+          8
+        ]
+      ]
+    },
+    "1280": {
+      "name": "song_title",
+      "viewportWidth": 1264,
+      "width": 1264,
+      "height": 18,
+      "bones": [
+        [
+          0,
+          0,
+          15.4013,
+          17,
+          8
+        ]
+      ]
+    }
+  },
+  "_hash": "840d075d45d87509152078fa3f195e0c"
+}

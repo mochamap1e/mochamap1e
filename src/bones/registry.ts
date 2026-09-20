@@ -3,10 +3,16 @@
 import { registerBones } from 'boneyard-js'
 import { configureBoneyard } from 'boneyard-js/react'
 
+import _song_title from './song_title.bones.json'
+import _song_artist from './song_artist.bones.json'
+import _song_time from './song_time.bones.json'
 import _song from './song.bones.json'
 
 configureBoneyard({"animate":"shimmer"})
 
 registerBones({
+  "song_title": _song_title,
+  "song_artist": _song_artist,
+  "song_time": _song_time,
   "song": _song,
 })

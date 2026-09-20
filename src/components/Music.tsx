@@ -26,6 +26,8 @@ export function Music({ activity }: Props) {
 
     const [state, setState] = useState<State>();
 
+    const isLoading = !state;
+
     useEffect(() => {
         if (activity) {
             setState({
@@ -41,22 +43,24 @@ export function Music({ activity }: Props) {
 
     return (
         <Card title="Music">
-            {state && (
-                <div>
-                    {/* <img src={state.image}/> */}
-                    <Skeleton name="song" loading={loading}>
-                        <a
-                            href={state.song_url}
-                            target="_blank"
-                        >{state.song}</a>
-                    </Skeleton>
+            <div>
+                {/* <img src={state.image}/> */}
+                <Skeleton name="song_title" loading={isLoading}>
                     <a
-                        href={state.artist_url}
+                        href={state?.song_url}
                         target="_blank"
-                    >{state.artist}</a>
-                    <p>{state.time}</p>
-                </div>
-            )}
+                    >{state?.song}</a>
+                </Skeleton>
+                <Skeleton name="song_artist" loading={isLoading}>
+                    <a
+                        href={state?.artist_url}
+                        target="_blank"
+                    >{state?.artist}</a>
+                </Skeleton>
+                <Skeleton name="song_time" loading={isLoading}>
+                    <p>{state?.time}</p>
+                </Skeleton>
+            </div>
         </Card>
     )
 }
