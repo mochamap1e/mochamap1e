@@ -5,10 +5,13 @@
     "scripts": {
         "dev": "concurrently -k -n 'API,App' 'cd api && bun dev' 'vite'",
         "build": "tsc -b && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "bones": "bunx boneyard-js build http://localhost:5173"
     },
     "dependencies": {
         "axios": "^1.20.0",
+        "axios-hooks": "^5.1.1",
+        "boneyard-js": "^1.10.0",
         "react": "^19.2.8",
         "react-dom": "^19.2.8",
         "use-lanyard": "^2.0.0"

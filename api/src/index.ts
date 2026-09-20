@@ -19,18 +19,27 @@ const one = new Elysia()
     }))
     .get("/lfm", async ({ status }) => {
         try {
-            const response: any = await axios.get(`https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=mocchamaple&limit=1&api_key=${LASTFM_KEY}&format=json`);
+            const response: any = await axios.get(`https://ws.audioscrobbler.com/2.0/
+                ?method=user.getrecenttracks
+                &user=mocchamaple
+                &limit=1
+                &extended=1
+                &api_key=${LASTFM_KEY}&format=json`
+            .replaceAll("\n", "")
+            .replaceAll(" ", ""));
+            
             const tracks: LfmSong[] = response.data.recenttracks.track;
 
             const track = tracks[0]!;
-            const image = track.image.find(image => image.size === "large")!;
+            const image = track.image.find(image => image.size === "extralarge")!;
 
             return {
-                name: track.name,
-                artist: track.artist["#text"],
-                url: track.url,
                 image: image["#text"],
-                timestamp: track.date ? track.date.uts : "now"
+                song: track.name,
+                artist: track.artist["#text"],
+                time: track.date ? track.date.uts : "now",
+                song_url: track.url,
+                artist_url: track.artist.url
             }
         } catch {
             return status(500);

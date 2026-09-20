@@ -3,7 +3,8 @@ interface LfmSong {
     url: string
 
     artist: {
-        "#text": string
+        "#text": string,
+        url: string
     }
     
     image: {

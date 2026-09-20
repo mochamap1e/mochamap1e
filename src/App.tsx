@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { useLanyard } from "@/clients/lanyard";
 import { Music } from "@/components/Music";
 
+import "@/bones/registry";
 import "@/styles.css";
 
 export function App() {
@@ -17,7 +18,7 @@ export function App() {
 
         setMusicActivity(presence.activities.find(activity => activity.type === 2));
 
-        console.log(presence);
+        console.log("LANYARD_DBG:", presence);
     }, [presence])
 
     return (
