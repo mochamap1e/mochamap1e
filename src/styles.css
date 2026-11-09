@@ -10,7 +10,7 @@ body {
     background-color: black;
     color: white;
     font-family: "Source Sans 3", Arial, Helvetica, sans-serif;
-    margin: 80px;
+    padding: clamp(16px, 5vw, 80px);
 }
 
 iframe {
@@ -37,6 +37,8 @@ h1, p {
     flex-direction: column;
     align-items: flex-start;
     align-items: center;
+    width: 100%;
+    max-width: 700px;
     gap: 30px;
 }
 
@@ -113,4 +115,24 @@ h1, p {
 
 #badges img {
     image-rendering: pixelated;
+}
+
+@media (max-width: 600px) {
+    #me {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    #about p {
+        max-width: none;
+    }
+
+    #socials {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #visitors p {
+        font-size: 18px;
+    }
 }
