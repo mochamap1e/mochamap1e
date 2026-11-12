@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Shader, FlowingGradient, Aurora, FloatingParticles } from "shaders/react";
+import { useLocalStorage } from "usehooks-ts";
 import { useLanyard } from "use-lanyard";
 
 import { Tile } from "@/components/Tile";
@@ -14,9 +15,15 @@ import "@/styles.css";
 export function App() {
     const api = "https://api.mochamaple.cafe";
     const discordId = "1369412711024169140";
+    const avatarFallback = "https://github.com/mochamap1e.png?size=256";
+
+    const [visits, setVisits] = useState("...");
+    const [time, setTime] = useState("0:00");
+    const [backgroundSeed] = useState(() => seed());
+
+    const [use12h, setUse12h] = useLocalStorage("12h", new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12);
 
     const presence = useLanyard(discordId);
-    const [visits, setVisits] = useState("...");
 
     useEffect(() => {
         (async () => {
@@ -33,6 +40,23 @@ export function App() {
         })();
     }, []);
 
+    useEffect(() => {
+        function updateTime() {
+            setTime(new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/New_York",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: use12h
+            }).format(new Date()));
+        }
+
+        updateTime();
+
+        const interval = setInterval(updateTime, 1000);
+
+        return () => clearInterval(interval);
+    }, [use12h]);
+
     return (
         <div>
             <div id="container">
@@ -43,20 +67,37 @@ export function App() {
                             src={
                                 presence ?
                                     `https://cdn.discordapp.com/avatars/${discordId}/${presence.discord_user.avatar}.png?size=256`
-                                    : "https://github.com/mochamap1e.png?size=256"
+                                    : avatarFallback
                                 }
+                            onError={(e) => e.currentTarget.src = avatarFallback}
                         />
-                        {(presence && presence.discord_user.avatar_decoration_data) && (
+                        {presence?.discord_user.avatar_decoration_data && (
                             <img
                                 id="avatar-deco"
                                 src={`https://cdn.discordapp.com/media/v1/collectibles-shop/${presence.discord_user.avatar_decoration_data.sku_id}/animated`}
+                                onError={(e) => e.currentTarget.style.display = "none"}
                             />
                         )}
                     </div>
 
                     <div id="about">
                         <h1>lexi</h1>
-                        <p>haii i'm lexi, a 16yo dev from massachusetts. i also go by alex. i love geometry dash and minecraft and typescript</p>
+                        <p>haii i'm lexi. i am a 16yo that loves geometry dash and minecraft and typescript. i also go by alex</p>
+
+                        <div id="widgets">
+                            <div>
+                                <img src="/pin.svg"/>
+                                <p>MA, US</p>
+                            </div>
+                            <div
+                                id="time"
+                                title="my current time"
+                                onClick={() => setUse12h(!use12h)}
+                            >
+                                <img src="/clock.svg"/>
+                                <p>{time}</p>
+                            </div>
+                        </div>
                     </div>
                 </Tile>
 
@@ -137,7 +178,7 @@ export function App() {
                     colorB="#00215e"
                     colorC="#36007c"
                     colorD="#00255c"
-                    seed={seed()}
+                    seed={backgroundSeed}
                 />
                 {isChristmas() && (
                     <Aurora
@@ -145,7 +186,7 @@ export function App() {
                         height={40}
                         rayDensity={75}
                         intensity={50}
-                        seed={seed()}
+                        seed={backgroundSeed}
                     />
                 )}
                 {isChristmas() && (

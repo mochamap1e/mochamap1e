@@ -47,13 +47,13 @@ h1, p {
 #me {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 50px;
 }
 
 #avatar-container {
     display: grid;
     place-items: center;
-    width: 150px;
+    width: 160px;
 }
 
 #avatar-container img {
@@ -83,7 +83,27 @@ h1, p {
 }
 
 #about p {
-    max-width: 40ch;
+    max-width: 45ch;
+}
+
+#widgets {
+    display: flex;
+    gap: 12px;
+}
+
+#widgets div {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#widgets img {
+    height: 28px;
+    aspect-ratio: 1/1;
+}
+
+#time {
+    cursor: pointer;
 }
 
 /* socials */
