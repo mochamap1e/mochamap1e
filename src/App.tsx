@@ -13,7 +13,7 @@ import { seed, isChristmas, getOrdinalSuffix, convertAPMUrl, timestampString, ms
 import "@/styles.css";
 
 export function App() {
-    const api = "http://localhost:5500";//"https://api.mochamaple.cafe";
+    const api = "https://api.mochamaple.cafe";
     const discordId = "1369412711024169140";
     const avatarFallback = "https://github.com/mochamap1e.png?size=256";
 
