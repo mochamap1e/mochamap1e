@@ -8,23 +8,27 @@ import { Tile } from "@/components/Tile";
 import { Social } from "@/components/Social";
 import { Badge } from "@/components/Badge";
 
-import { seed, isChristmas, getOrdinalSuffix } from "@/utils";
+import { seed, isChristmas, getOrdinalSuffix, convertAPMUrl, timestampString, msToDuration } from "@/utils";
 
 import "@/styles.css";
 
 export function App() {
-    const api = "https://api.mochamaple.cafe";
+    const api = "http://localhost:5500";//"https://api.mochamaple.cafe";
     const discordId = "1369412711024169140";
     const avatarFallback = "https://github.com/mochamap1e.png?size=256";
 
     const [visits, setVisits] = useState("...");
     const [time, setTime] = useState("0:00");
+    const [song, setSong] = useState<Song | null>(null);
+    const [songProgress, setSongProgess] = useState("0:00");
+    const [songPercentage, setSongPercentage] = useState("0%");
     const [backgroundSeed] = useState(() => seed());
 
     const [use12h, setUse12h] = useLocalStorage("12h", new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12);
 
     const presence = useLanyard(discordId);
 
+    // visits
     useEffect(() => {
         (async () => {
             try {
@@ -40,6 +44,7 @@ export function App() {
         })();
     }, []);
 
+    // clock
     useEffect(() => {
         function updateTime() {
             setTime(new Intl.DateTimeFormat("en-US", {
@@ -56,6 +61,62 @@ export function App() {
 
         return () => clearInterval(interval);
     }, [use12h]);
+
+    // music
+    useEffect(() => {
+        async function lastfm() {
+            try {
+                const { data }: { data: Song } = await axios.get(`${api}/lfm`);
+
+                setSong({
+                    title: data.title,
+                    artist: data.artist,
+                    album: data.album,
+                    cover: data.cover,
+                    timestamp: data.timestamp,
+                    isCurrent: false
+                });
+            } catch (error) {
+                console.error(":c failed to fetch song", error);
+            }
+        }
+
+        const currentSong = presence?.activities.find(activity => activity.type === 2) as any;
+
+        if (currentSong) {
+            setSong({
+                title: currentSong.details,
+                artist: currentSong.state,
+                album: currentSong.assets.large_text,
+                cover: convertAPMUrl(currentSong.assets.large_image),
+                timestamp: currentSong.timestamps.start,
+                timestampEnd: currentSong.timestamps.end,
+                duration: msToDuration(currentSong.timestamps.end - currentSong.timestamps.start),
+                isCurrent: true
+            });
+        } else if (presence) {
+            lastfm();
+        }
+    }, [presence]);
+
+    // music progress
+    useEffect(() => {
+        function tick() {
+            if (song && song.isCurrent) {
+                const total = song.timestampEnd! - song.timestamp!;
+                const elapsed = Date.now() - song.timestamp!;
+                const percent = Math.min(100, Math.max(0, (elapsed / total) * 100));
+                setSongProgess(msToDuration(elapsed));
+                setSongPercentage(`${percent}%`);
+            } else {
+                setSongPercentage("0%");
+            }
+        }
+
+        const interval = setInterval(tick, 100);
+
+        return () => { clearInterval(interval); }
+    }, [song]);
 
     return (
         <div>
@@ -81,8 +142,8 @@ export function App() {
                     </div>
 
                     <div id="about">
-                        <h1>lexi</h1>
-                        <p>haii i'm lexi. i am a 16yo that loves geometry dash and minecraft and typescript. i also go by alex</p>
+                        <h1>mochamap1e</h1>
+                        <p>haii i'm lexi aka alex. i am a 16yo that loves geometry dash and minecraft and typescript. my name is pronounced mocha-maple</p>
 
                         <div id="widgets">
                             <div>
@@ -99,6 +160,36 @@ export function App() {
                             </div>
                         </div>
                     </div>
+                </Tile>
+
+                <Tile title="Music">
+                    {song ? (
+                        <div id="music" className={song.isCurrent ? "wide" : ""}>
+                            <img src={song.cover}/>
+                            <div>
+                                <span>{song.isCurrent ? "listening to" : "was listening to"}</span>
+
+                                <h1>{song.title}</h1>
+
+                                <p><span>by</span> {song.artist}</p>
+                                <p><span>from</span> {song.album}</p>
+
+                                {song.isCurrent ? (
+                                    <div id="music-state">
+                                        <p>{songProgress}</p>
+                                        <div id="music-progress">
+                                            <div style={{ width: songPercentage }}/>
+                                        </div>
+                                        <p>{song.duration}</p>
+                                    </div>
+                                ) : (
+                                    <span>{timestampString(new Date(song.timestamp!))} ago</span>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <h1>...</h1>
+                    )}
                 </Tile>
 
                 <Tile title="Socials" id="socials">

@@ -53,7 +53,7 @@ h1, p {
 #avatar-container {
     display: grid;
     place-items: center;
-    width: 160px;
+    width: 180px;
 }
 
 #avatar-container img {
@@ -88,7 +88,7 @@ h1, p {
 
 #widgets {
     display: flex;
-    gap: 12px;
+    gap: 16px;
 }
 
 #widgets div {
@@ -104,6 +104,50 @@ h1, p {
 
 #time {
     cursor: pointer;
+}
+
+/* music */
+
+#music {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+#music img {
+    width: 200px;
+    border-radius: 6px;
+    aspect-ratio: 1/1;
+}
+
+#music span {
+    font-size: 12px;
+}
+
+#music-state {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    gap: 6px;
+}
+
+#music-state p {
+    font-size: 14px;
+}
+
+#music-progress {
+    width: 300px;
+    height: 5px;
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+#music-progress div {
+    background-color: white;
+    height: 100%;
+}
+
+#music-progress, #music-progress div {
+    border-radius: 100vh;
 }
 
 /* socials */
@@ -146,6 +190,18 @@ h1, p {
 
     #about p {
         max-width: none;
+    }
+
+    #widgets {
+        justify-content: center;
+    }
+
+    #music {
+        flex-direction: column;
+    }
+
+    #music.wide img {
+        width: 300px;
     }
 
     #socials {
